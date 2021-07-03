@@ -1,4 +1,7 @@
-# Meadow Guarder
+# Meadow Guarder (Worldedit Mod)
+
+This is a MODDED version of MeadowGuarder by Maitian352. Check out the base game!
+
 
 Credits
 
