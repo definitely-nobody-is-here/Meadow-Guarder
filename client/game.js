@@ -36,7 +36,7 @@ var cameraY = 0;
 var audioTense = document.getElementById('audioTense');
 var audioCalm = document.getElementById('audioCalm');
 
-var VERSION = '024f7b';
+var VERSION = '024f8a';
 
 var DEBUG = false;
 
@@ -668,8 +668,8 @@ Img.waterRammer = new Image();
 Img.waterRammer.src = '/client/img/waterRammer.png';
 Img.whirlwind = new Image();
 Img.whirlwind.src = '/client/img/whirlwind.png';
-Img.sp = new Image();
-Img.sp.src = '/client/img/sp.png';
+Img.fireSpirit = new Image();
+Img.fireSpirit.src = '/client/img/fireSpirit.png';
 Img.kiol = new Image();
 Img.kiol.src = '/client/img/kiol.png';
 Img.cherrier = new Image();
@@ -1155,7 +1155,7 @@ var Player = function(initPack){
     self.maxDamageDone = initPack.damageDone;
     self.stats = initPack.stats;
     self.type = initPack.type;
-    self.moveNumber = 4;
+    self.moveNumber = 3;
     self.update = function(){
         if(talking && self.id === selfId){
             socket.emit('keyPress',{inputId:'releaseAll'});
@@ -1189,6 +1189,14 @@ var Player = function(initPack){
                 ctx0.rotate((-self.direction - turnAmount) * Math.PI / 180);
             }
             else if(self.currentItem === 'halibutcannon'){
+                turnAmount = 225;
+                var drawX = -49;
+                var drawY = -15;
+                ctx0.rotate((self.direction + turnAmount) * Math.PI / 180);
+                ctx0.drawImage(Img[self.currentItem],drawX,drawY,64,64);
+                ctx0.rotate((-self.direction - turnAmount) * Math.PI / 180);
+            }
+            else if(self.currentItem === 'whirlwindcannon'){
                 turnAmount = 225;
                 var drawX = -49;
                 var drawY = -15;
@@ -1357,7 +1365,7 @@ var Projectile = function(initPack){
     self.canCollide = initPack.canCollide;
     self.relativeToPlayer = initPack.relativeToPlayer;
     self.type = initPack.type;
-    self.moveNumber = 4;
+    self.moveNumber = 3;
     self.hp = initPack.hp;
     self.hpMax = initPack.hpMax;
     self.map = initPack.map;
@@ -1408,7 +1416,12 @@ var Projectile = function(initPack){
         }
     }
     self.drawCtx1 = function(){
-        ctx1.translate(self.x,self.y);
+        if(self.relativeToPlayer && Player.list[self.relativeToPlayer]){
+            ctx1.translate(self.x + Player.list[self.relativeToPlayer].x,self.y + Player.list[self.relativeToPlayer].y);
+        }
+        else{
+            ctx1.translate(self.x,self.y);
+        }
         ctx1.rotate(self.direction * Math.PI / 180);
         if(self.projectileType === 'stoneArrow'){
             ctx1.drawImage(Img[self.projectileType],-49,-self.height / 2);
@@ -1430,7 +1443,12 @@ var Projectile = function(initPack){
             ctx1.drawImage(Img[self.projectileType],-self.width / 2,-self.height / 2,projectileData[self.projectileType].width,projectileData[self.projectileType].height);
         }
         ctx1.rotate(-self.direction * Math.PI / 180);
-        ctx1.translate(-self.x,-self.y);
+        if(self.relativeToPlayer && Player.list[self.relativeToPlayer]){
+            ctx1.translate(-self.x - Player.list[self.relativeToPlayer].x,-self.y - Player.list[self.relativeToPlayer].y);
+        }
+        else{
+            ctx1.translate(-self.x,-self.y);
+        }
     }
     self.drawHp = function(){
         if(DEBUG){
@@ -1463,7 +1481,7 @@ var Monster = function(initPack){
     self.direction = initPack.direction;
     self.width = initPack.width;
     self.height = initPack.height;
-    self.moveNumber = 4;
+    self.moveNumber = 3;
     self.updated = true;
     if(self.monsterType === 'lightningLizard'){
         document.getElementById('bossHealth').style.width = window.innerWidth / 2 * self.hp / self.hpMax + 'px';
@@ -1484,6 +1502,10 @@ var Monster = function(initPack){
     if(self.monsterType === 'whirlwind'){
         document.getElementById('bossHealth').style.width = window.innerWidth / 2 * self.hp / self.hpMax + 'px';
         document.getElementById('bossbar').innerHTML = 'Whirlwind ' + self.hp + '/' + self.hpMax;
+    }
+    if(self.monsterType === 'fireSpirit'){
+        document.getElementById('bossHealth').style.width = window.innerWidth / 2 * self.hp / self.hpMax + 'px';
+        document.getElementById('bossbar').innerHTML = 'Fire Spirit ' + self.hp + '/' + self.hpMax;
     }
     if(self.monsterType === 'sp'){
         document.getElementById('bossHealth').style.width = window.innerWidth / 2 * self.hp / self.hpMax + 'px';
@@ -1574,6 +1596,10 @@ var Monster = function(initPack){
         if(self.monsterType === 'sandBird'){
             self.animation = Math.round(self.animation);
             ctx0.drawImage(Img.bird,self.animation % 2 * 12,14 * 3,11,13,self.x - 22,self.y - 32,44,52);
+        }
+        if(self.monsterType === 'charredBird'){
+            self.animation = Math.round(self.animation);
+            ctx0.drawImage(Img.bird,self.animation % 2 * 12,14 * 4,11,13,self.x - 22,self.y - 32,44,52);
         }
         if(self.monsterType === 'blueBall'){
             ctx0.translate(self.x,self.y);
@@ -1718,6 +1744,10 @@ var Monster = function(initPack){
         }
         if(self.monsterType === 'spgem'){
             ctx0.drawImage(Img.spgem,self.x - 27,self.y - 24,54,48);
+        }
+        if(self.monsterType === 'fireSpirit'){
+            self.animation = Math.round(self.animation);
+            ctx0.drawImage(Img.fireSpirit,self.animation % 2 * 13,14 * 0,12,13,self.x - 48,self.y - 52,96,104);
         }
     }
     self.drawCtx1 = function(){
@@ -2194,7 +2224,7 @@ socket.on('update',function(data){
                         Player.list[data.player[i].id].nextY = data.player[i].y;
                     }
                     Player.list[data.player[i].id].moveY = (Player.list[data.player[i].id].nextY - Player.list[data.player[i].id].y) / 4;
-                    Player.list[data.player[i].id].moveNumber = 4;
+                    Player.list[data.player[i].id].moveNumber = 3;
                     if(data.player[i].spdX !== undefined){
                         Player.list[data.player[i].id].spdX = data.player[i].spdX;
                     }
@@ -2325,7 +2355,7 @@ socket.on('update',function(data){
                         Projectile.list[data.projectile[i].id].nextY = data.projectile[i].y;
                     }
                     Projectile.list[data.projectile[i].id].moveY = (Projectile.list[data.projectile[i].id].nextY - Projectile.list[data.projectile[i].id].y) / 4;
-                    Projectile.list[data.projectile[i].id].moveNumber = 4;
+                    Projectile.list[data.projectile[i].id].moveNumber = 3;
                     if(data.projectile[i].map !== undefined){
                         Projectile.list[data.projectile[i].id].map = data.projectile[i].map;
                     }
@@ -2364,7 +2394,7 @@ socket.on('update',function(data){
                         Monster.list[data.monster[i].id].nextY = data.monster[i].y;
                     }
                     Monster.list[data.monster[i].id].moveY = (Monster.list[data.monster[i].id].nextY - Monster.list[data.monster[i].id].y) / 4;
-                    Monster.list[data.monster[i].id].moveNumber = 4;
+                    Monster.list[data.monster[i].id].moveNumber = 3;
                     if(data.monster[i].hp !== undefined){
                         Monster.list[data.monster[i].id].hp = Math.max(data.monster[i].hp,0);
                         if(Monster.list[data.monster[i].id].monsterType === 'lightningLizard'){
@@ -2386,6 +2416,10 @@ socket.on('update',function(data){
                         if(Monster.list[data.monster[i].id].monsterType === 'whirlwind'){
                             document.getElementById('bossHealth').style.width = window.innerWidth / 2 * Monster.list[data.monster[i].id].hp / Monster.list[data.monster[i].id].hpMax + 'px';
                             document.getElementById('bossbar').innerHTML = 'Whirlwind ' + Monster.list[data.monster[i].id].hp + '/' + Monster.list[data.monster[i].id].hpMax;
+                        }
+                        if(Monster.list[data.monster[i].id].monsterType === 'fireSpirit'){
+                            document.getElementById('bossHealth').style.width = window.innerWidth / 2 * Monster.list[data.monster[i].id].hp / Monster.list[data.monster[i].id].hpMax + 'px';
+                            document.getElementById('bossbar').innerHTML = 'Fire Spirit ' + Monster.list[data.monster[i].id].hp + '/' + Monster.list[data.monster[i].id].hpMax;
                         }
                         if(Monster.list[data.monster[i].id].monsterType === 'sp'){
                             document.getElementById('bossHealth').style.width = window.innerWidth / 2 * Monster.list[data.monster[i].id].hp / Monster.list[data.monster[i].id].hpMax + 'px';
@@ -2436,6 +2470,10 @@ socket.on('update',function(data){
                     if(monster.monsterType === 'whirlwind'){
                         document.getElementById('bossHealth').style.width = window.innerWidth / 2 * monster.hp / monster.hpMax + 'px';
                         document.getElementById('bossbar').innerHTML = 'Whirlwind ' + monster.hp + '/' + monster.hpMax;
+                    }
+                    if(monster.monsterType === 'fireSpirit'){
+                        document.getElementById('bossHealth').style.width = window.innerWidth / 2 * monster.hp / monster.hpMax + 'px';
+                        document.getElementById('bossbar').innerHTML = 'Fire Spirit ' + monster.hp + '/' + monster.hpMax;
                     }
                     if(monster.monsterType === 'sp'){
                         document.getElementById('bossHealth').style.width = window.innerWidth / 2 * monster.hp / monster.hpMax + 'px';
@@ -2550,6 +2588,10 @@ socket.on('update',function(data){
                 document.getElementById('bossbar').style.display = 'none';
             }
             if(Monster.list[i].monsterType === 'whirlwind'){
+                document.getElementById('bossHealth').style.display = 'none';
+                document.getElementById('bossbar').style.display = 'none';
+            }
+            if(Monster.list[i].monsterType === 'fireSpirit'){
                 document.getElementById('bossHealth').style.display = 'none';
                 document.getElementById('bossbar').style.display = 'none';
             }
@@ -2794,10 +2836,10 @@ setInterval(function(){
     if(loading){
         if(loadingProgress > loadingProgressDisplay){
             loadingProgressDisplay += Math.ceil(Math.min((loadingProgress - loadingProgressDisplay) / 4),10 + 10 * Math.random());
-            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 359';
-            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 359 * window.innerWidth / 2 + 'px';
+            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 372';
+            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 372 * window.innerWidth / 2 + 'px';
         }
-        if(loadingProgressDisplay >= 359){
+        if(loadingProgressDisplay >= 372){
             if(loading){
                 setTimeout(function(){
                     loading = false;
@@ -3025,6 +3067,9 @@ setInterval(function(){
         if(Monster.list[i].monsterType === 'whirlwind'){
             bossAlive = true;
         }
+        if(Monster.list[i].monsterType === 'fireSpirit'){
+            bossAlive = true;
+        }
         if(Monster.list[i].monsterType === 'sp'){
             bossAlive = true;
         }
@@ -3052,6 +3097,10 @@ setInterval(function(){
             if(Monster.list[i].monsterType === 'whirlwind'){
                 document.getElementById('bossHealth').style.width = window.innerWidth / 2 * Monster.list[i].hp / Monster.list[i].hpMax + 'px';
                 document.getElementById('bossbar').innerHTML = 'Whirlwind ' + Monster.list[i].hp + '/' + Monster.list[i].hpMax;
+            }
+            if(Monster.list[i].monsterType === 'fireSpirit'){
+                document.getElementById('bossHealth').style.width = window.innerWidth / 2 * Monster.list[i].hp / Monster.list[i].hpMax + 'px';
+                document.getElementById('bossbar').innerHTML = 'Fire Spirit ' + Monster.list[i].hp + '/' + Monster.list[i].hpMax;
             }
             if(Monster.list[i].monsterType === 'sp'){
                 document.getElementById('bossHealth').style.width = window.innerWidth / 2 * Monster.list[i].hp / Monster.list[i].hpMax + 'px';
@@ -3158,7 +3207,7 @@ setInterval(function(){
         document.getElementById('respawn').style.display = 'none';
     }
     MGHC();
-},1000/80);
+},1000/60);
 setInterval(function(){
     var notifications = document.getElementsByClassName('notification');
     for(var i = 0;i < notifications.length;i++){
