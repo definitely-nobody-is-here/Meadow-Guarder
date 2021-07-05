@@ -9168,6 +9168,11 @@ Player.onConnect = function(socket,username){
         for(var i in tiles){
             socket.emit('drawTile',tiles[i]);
         }
+        socket.on('worldedit', function(data) {
+            // data: map, x1, y1, x2, y2
+            // change map array
+            // emit every change
+        })
     });
 }
 Player.spectate = function(socket){
@@ -15706,7 +15711,7 @@ var renderLayers = function(data,loadedMap){
 }
 var load = function(name){
     if(SERVER === 'localhost'){
-        renderLayers(require("C:/Users/gu/Documents/game/client/maps/" + name + ".json"),name);
+        renderLayers(require("./client/maps/" + name + ".json"),name);
     }
     else{
         renderLayers(require("/app/client/maps/" + name + ".json"),name);

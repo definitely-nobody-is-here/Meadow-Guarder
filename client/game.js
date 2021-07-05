@@ -268,6 +268,7 @@ var loadMap = function(name){
         }
         else{
             // We reached our target server, but it returned an error
+            console.error('ERROR???')
         }
     };
 
@@ -457,9 +458,9 @@ var chatForm = document.getElementById('chat-form');
 var debugText = document.getElementById('debug-text');
 var debugInput = document.getElementById('debug-input');
 var debugForm = document.getElementById('debug-form');
-var chat = '<div>Welcome to Meadow Guarders Open ' + VERSION + '!</div>';
+var chat = '<div>Welcome to Meadow Guarders Modded Open ' + VERSION + '!</div>';
 var debug = '<div>Debug info will show up here.</div>'
-chatText.innerHTML = '<div>Welcome to Meadow Guarders Open ' + VERSION + '!</div>';
+chatText.innerHTML = '<div>Welcome to Meadow Guarders Modded Open ' + VERSION + '!</div>';
 var chatPress = false;
 var inChat = false;
 
@@ -522,10 +523,6 @@ debugInput.onmousedown = function(e){
     inChat = true;
 }
 
-
-var disconnect = function(){
-    socket.emit("timeout");
-}
 var ctx0 = document.getElementById("ctx0").getContext("2d");
 var ctx1 = document.getElementById("ctx1").getContext("2d");
 var map0 = document.getElementById("map0").getContext("2d");
@@ -971,7 +968,6 @@ document.getElementById('waypointButton').onclick = function(){
     disableAllMenu();
     document.getElementById('waypointScreen').style.display = 'inline-block';
 }
-
 
 document.getElementById('villageWaypoint').onclick = function(){
     socket.emit('waypoint','The Village');
@@ -2798,10 +2794,10 @@ setInterval(function(){
     if(loading){
         if(loadingProgress > loadingProgressDisplay){
             loadingProgressDisplay += Math.ceil(Math.min((loadingProgress - loadingProgressDisplay) / 4),10 + 10 * Math.random());
-            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 357';
-            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 357 * window.innerWidth / 2 + 'px';
+            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 359';
+            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 359 * window.innerWidth / 2 + 'px';
         }
-        if(loadingProgressDisplay >= 357){
+        if(loadingProgressDisplay >= 359){
             if(loading){
                 setTimeout(function(){
                     loading = false;
@@ -3274,10 +3270,18 @@ mouseDown = function(event){
         socket.emit('timeout');
     }
     if(event.button == 0){
-        socket.emit('keyPress',{inputId:'attack',state:true});
+        if (Player.list[selfId].currentItem == 'worldedit_wand') {
+            w.pos1(Math.round((Player.list[selfId].x+mouseX)/64), Math.floor((Player.list[selfId].y+mouseY)/64));
+        } else {
+            socket.emit('keyPress',{inputId:'attack',state:true});
+        }
     }
     if(event.button == 2){
-        socket.emit('keyPress',{inputId:'second',state:true});
+        if (Player.list[selfId].currentItem == 'worldedit_wand') {
+            w.pos2(Math.round((Player.list[selfId].x+mouseX)/64), Math.floor((Player.list[selfId].y+mouseY)/64));
+        } else {
+            socket.emit('keyPress',{inputId:'second',state:true});
+        }
     }
 }
 mouseUp = function(event){

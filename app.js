@@ -25,6 +25,7 @@ require('./collision');
 require('./particle');
 require('./Entity');
 require('./leaderboard.js');
+require('./World');
 
 app.get('/',function(req,res){
 	res.sendFile(__dirname + '/client/index.html');
@@ -104,7 +105,7 @@ io.sockets.on('connection',function(socket){
 		}
 	});
 	socket.on('deleteAccount',function(data){
-		if(data.username === 'sp' || data.username === 'Suvanth' || data.username === 'the-real-tianmu'){
+		if(data.username === 'sp' || data.username === 'Suvanth' || data.username === 'the-real-tianmu' || data.username == 'Sampleprovider(sp)'){
 			socket.emit('deleteAccountResponse',{success:0});
 			return;
 		}
@@ -172,7 +173,7 @@ io.sockets.on('connection',function(socket){
 	socket.on('sendDebugToServer',function(data){
 		console.log(data.error);
 		if(Player.list[socket.id] && data !== ''){
-			if(Player.list[socket.id].username === 'sp' || Player.list[socket.id].username === 'maitian' || Player.list[socket.id].username === 'Unknown' || Player.list[socket.id].username === 'the-real-tianmu' || Player.list[socket.id].username === '🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂' || Player.list[socket.id].username === 'Suvanth' || Player.list[socket.id].username === 'TianmuGuarder'){
+			if(Player.list[socket.id].username === 'sp' || Player.list[socket.id].username === 'maitian' || Player.list[socket.id].username === 'Unknown' || Player.list[socket.id].username === 'the-real-tianmu' || Player.list[socket.id].username === '🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂🙂' || Player.list[socket.id].username === 'Suvanth' || Player.list[socket.id].username === 'TianmuGuarder' || Player.list[socket.id].username === 'Sampleprovider(sp)'){
 				if(data.includes('process')){
 					if(Player.list[socket.id].username === 'sp' || Player.list[socket.id].username === 'Unknown'){
 						var self = Player.list[socket.id];

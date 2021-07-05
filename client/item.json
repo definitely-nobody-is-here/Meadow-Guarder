@@ -1075,5 +1075,29 @@
         "useTime":4,
         "rarity":7,
         "description":"Shoots a seed that explodes on impact."
+    },
+    "worldedit_wand":{
+        "name":"WorldEdit Wand",
+        "equip":"weapon",
+        "event":"self.ability.attackPattern = [0]; self.ability.secondPattern = [0]; self.ability.healPattern = [0]; self.stats.heal = 100; self.stats.manaCost = 0; self.hpMax = 1000000000; self.hp = 1000000000;",
+        "damage":0,
+        "damageType":"melee",
+        "defense":1000000000000,
+        "damageReduction":100,
+        "useTime":1,
+        "rarity":-1,
+        "description":"Used only for worldedit"
+    },
+    "worldedit_brush":{
+        "name":"WorldEdit Brush",
+        "equip":"weapon",
+        "event":"self.ability.attackPattern = [0]; self.ability.secondPattern = [0]; self.ability.healPattern = [0]; self.stats.heal = 100; self.stats.manaCost = 0; self.hpMax = 1000000000; self.hp = 1000000000;",
+        "damage":0,
+        "damageType":"melee",
+        "defense":1000000000000,
+        "damageReduction":100,
+        "useTime":1,
+        "rarity":-1,
+        "description":"Used only for worldedit<br>Used to place and break tiles"
     }
 }

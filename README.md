@@ -5,28 +5,4 @@ This is a MODDED version of MeadowGuarder by Maitian352. Check out the base game
 
 Credits
 
-Khanacademy: https://khanacademy.org
-
-Github: well you are here already
-
-ScriptersWar: https://scripterswar.com/tutorial/nodejs
-
-Kenney: Tilesets https://www.kenney.nl
-
-Tiled: https://www.mapeditor.org/
-
-Items: https://opengameart.org/content/rpg-potions-16x16
-
-Pixel Editing: paint3d
-
-Player Sprites: https://www.youtube.com/watch?v=ty-RxDy9_SQ&app=desktop
-
-Server: heroku
-
-Database: heroku postgresql
-
-npm packages: colors,express,fs,jquery,pg,socket.io
-
-
-if you want to donate you cant. 
-
+Original game https://github.com/maitian352/Meadow-Guarder
