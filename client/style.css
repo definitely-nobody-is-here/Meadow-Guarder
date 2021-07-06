@@ -1317,3 +1317,54 @@ audio {
     text-align: center;
     vertical-align: middle;
 }
+
+/* WorldEdit */
+#WEConsole {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 600px;
+    height: 300px;
+    border: 2px black solid;
+    background-color: whitesmoke;
+    text-align: left;
+    transition: height 0.5s ease-in-out;
+    overflow-y: hidden;
+}
+#WEConsole-top {
+    padding-left: 8px;
+    padding-top: 4px;
+    height: 28px;
+    cursor: move;
+    background-color: black;
+}
+#WEConsole-hide {
+    display: inline-block;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: white;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+#WEConsole-log {
+    margin-left: 8px;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+    max-height: 244px;
+}
+#WEConsole-input {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 596px;
+    height: 20px;
+    border: none;
+    border-top: 2px black solid;
+    background-color: white;
+    font-family: 'Pixel';
+    font-size: 16px;
+    cursor: text;
+}

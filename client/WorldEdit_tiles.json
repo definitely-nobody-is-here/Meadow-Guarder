@@ -940,7 +940,8 @@
         {"id":"painting_5_center", "number":4145},
         {"id":"painting_5_right", "number":4146},
         {"id":"seat_large_marked_green_cornerbottomleft", "number":4151},
-        {"id":"seat_large_marked_green_cornerbottomright", "number":4152}
+        {"id":"seat_large_marked_green_cornerbottomright", "number":4152},
+        {"id":"none", "number":5761}
     ],
     "objects": {
         "door_wood_medium_round": [

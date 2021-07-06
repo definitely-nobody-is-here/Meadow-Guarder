@@ -15,7 +15,7 @@
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js" defer></script>
 	<script src="/client/Inventory.js" defer></script>
 	<script src="/client/game.js" defer></script>
-	<script src="/client/WorldEdit_v0.1.0.js" defer></script>
+	<script src="/client/WorldEdit.js" defer></script>
 	<div id="pageDiv" style="display:inline-block;">
 		<div id="pageShade"></div>
 		<div id="pageScroll">
@@ -92,7 +92,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="pageStackOuter UI-display-light">
 					<div class="pageStackInner">
 						<div class="UI-text-light" style="position: static;top: 8px;left: 8px;color: #ffffff; font-size: 30px">
@@ -1041,6 +1041,21 @@
 						<div id="craftDescription" class="UI-display-light"></div>
 					</div>
 				</div>
+				<div id="worldeditScreen" class="menuDisplay" style="display: none;">
+					<div class="window-body">
+						WorldEdit v1.1.0
+					</div>
+					<br><br>
+					&emsp;<button id="showWEConsole" class='UI-button-light'>Show WorldEdit Console</button>
+					<br><br>
+					<div class="UI-display-light" style="border: none; left: 12px;">
+						This is a MODDED server!<br><br>
+						Welcome to MeadowGuarders WorldEdit Mod!<br>
+						This is intended for fun and you won't actually be able to obtain any of the special items without commands.
+					</div>
+					<br><br><br><br><br><br><br><br><br><br><br><br>
+					<canvas id="testcanvas" width="600" height="600"></canvas>
+				</div>
 			</div>
 			
 			<div id="menu-text" class="UI-text-light">
@@ -1050,7 +1065,7 @@
 				<button id="settingsButton" class="UI-button-light menuButton">Settings</button>
 				<button id="leaderboardButton" class="UI-button-light menuButton" style="font-size: 13px;">Leaderboards</button>
 				<button id="waypointButton" class="UI-button-light menuButton">Waypoints</button>
-				<button class="UI-button-light menuButton">Useless</button>
+				<button id="worldeditButton"class="UI-button-light menuButton">WorldEdit</button>
 				<button class="UI-button-light menuButton">Useless</button>
 				<button class="UI-button-light menuButton">Useless</button>
 				<button class="UI-button-light menuButton">Useless</button>

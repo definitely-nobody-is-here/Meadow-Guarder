@@ -553,20 +553,6 @@ Inventory = function(socket,server){
             unequip.onclick = function(){
                 self.socket.emit("unequipItem",index);
                 unequip.style.display = 'inline-block';
-                if (self.items[index].id == 'worldedit_wand') {
-                    for (var i in tempMap[Player.list[selfId].map]) {
-                        if (tempMap[Player.list[selfId].map][i].tile_idx == 1778) {
-                            tempMap[Player.list[selfId].map].splice(i, 1);
-                            i--;
-                        }
-                    }
-                    for (var i in tempMap[Player.list[selfId].map]) {
-                        if (tempMap[Player.list[selfId].map][i].tile_idx == 1692) {
-                            tempMap[Player.list[selfId].map].splice(i, 1);
-                            i--;
-                        }
-                    }
-                }
             }
             button.innerHTML = item.name + " ";
             button.style.display = 'inline-block';
@@ -1293,20 +1279,6 @@ Inventory = function(socket,server){
             unequip.onclick = function(){
                 self.socket.emit("unequipItem",index);
                 unequip.style.display = 'inline-block';
-                if (self.items[index].id == 'worldedit_wand') {
-                    for (var i in tempMap[Player.list[selfId].map]) {
-                        if (tempMap[Player.list[selfId].map][i].tile_idx == 1778) {
-                            tempMap[Player.list[selfId].map].splice(i, 1);
-                            i--;
-                        }
-                    }
-                    for (var i in tempMap[Player.list[selfId].map]) {
-                        if (tempMap[Player.list[selfId].map][i].tile_idx == 1692) {
-                            tempMap[Player.list[selfId].map].splice(i, 1);
-                            i--;
-                        }
-                    }
-                }
                 div.remove();
             }
             button.innerHTML = item.name + " ";

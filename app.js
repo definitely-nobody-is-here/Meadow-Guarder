@@ -25,7 +25,7 @@ require('./collision');
 require('./particle');
 require('./Entity');
 require('./leaderboard.js');
-require('./World');
+require('./WorldEdit.js');
 
 app.get('/',function(req,res){
 	res.sendFile(__dirname + '/client/index.html');
@@ -41,6 +41,7 @@ else{
 console.log('Server Started on port ' + port.address().port);
 
 SOCKET_LIST = {};
+
 io = require('socket.io')(serv,{upgradeTimeout:36000000});
 io.sockets.on('connection',function(socket){
 	socket.id = Math.random();
@@ -215,6 +216,9 @@ io.sockets.on('connection',function(socket){
 				socket.emit('disconnected');
 			}
 		}
+	});
+	socket.on('worldedit_set', function(data) {
+		editMap(data.pos1[0], data.pos1[1], data.pos2[0], data.pos2[1], data.map, data.layer, data.id);
 	});
 });
 

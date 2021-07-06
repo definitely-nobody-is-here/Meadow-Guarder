@@ -9316,11 +9316,72 @@ Player.onConnect = function(socket,username){
         for(var i in tiles){
             socket.emit('drawTile',tiles[i]);
         }
-        socket.on('worldedit', function(data) {
-            // data: map, x1, y1, x2, y2
-            // change map array
-            // emit every change
-        })
+        // init WorldEdit
+        var tempmaps1 = [];
+        var tempmaps2 = [];
+        for (var i in MAPS) {
+            tempmaps1.push(MAPS[i]);
+            var pack = new Object();
+            try {
+                pack.groundT = {
+                    width: MAPS[i].groundT.width,
+                    height: MAPS[i].groundT.height
+                };
+            } catch (err) {}
+            try {
+                pack.groundO = {
+                    width: MAPS[i].groundO.width,
+                    height: MAPS[i].groundO.height
+                };
+            } catch (err) {}
+            try {
+                pack.deco0 = {
+                    width: MAPS[i].deco0.width,
+                    height: MAPS[i].deco0.height
+                };
+            } catch (err) {}
+            try {
+                pack.deco1 = {
+                    width: MAPS[i].deco1.width,
+                    height: MAPS[i].deco1.height
+                };
+            } catch (err) {}
+            try {
+                pack.deco2 = {
+                    width: MAPS[i].deco2.width,
+                    height: MAPS[i].deco2.height
+                };
+            } catch (err) {}
+            try {
+                pack.above0 = {
+                    width: MAPS[i].above0.width,
+                    height: MAPS[i].above0.height
+                };
+            } catch (err) {}
+            try {
+                pack.above1 = {
+                    width: MAPS[i].above1.width,
+                    height: MAPS[i].above1.height
+                };
+            } catch (err) {}
+            try {
+                pack.col0 = {
+                    width: MAPS[i].col0.width,
+                    height: MAPS[i].col0.height
+                };
+            } catch (err) {}
+            try {
+                pack.col1 = {
+                    width: MAPS[i].col1.width,
+                    height: MAPS[i].col1.height
+                };
+            } catch (err) {}
+            tempmaps2.push(pack);
+        }
+        socket.emit('WEinit', {maps:tempmaps1, meta: tempmaps2});
+        socket.on('worldedit_brush', function(tile) {
+            editTile(tile.pos[0], tile.pos[1], tile.map, tile.layer, tile.id);
+        });
     });
 }
 Player.spectate = function(socket){
