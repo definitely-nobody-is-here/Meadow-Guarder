@@ -36,7 +36,7 @@ var cameraY = 0;
 var audioTense = document.getElementById('audioTense');
 var audioCalm = document.getElementById('audioCalm');
 
-var VERSION = '024f8a';
+var VERSION = '024f9a';
 
 var DEBUG = false;
 
@@ -310,6 +310,8 @@ signDivSignIn.onclick = function(){
         loadMap("Lilypad Temple Room 0");
         loadMap("Lilypad Temple Room 1");
         loadMap("Lilypad Temple Room 2");
+        loadMap("Lilypad Castle");
+        loadMap("Lilypad Castle Basement");
         loadMap("Mysterious Room");
         
         var request = new XMLHttpRequest();
@@ -2670,7 +2672,6 @@ socket.on('changeMap',function(data){
     }
     currentMap = data.teleport;
     shadeSpeed = 3 / 40;
-    Particle.list = [];
 });
 socket.on('dialogueLine',function(data){
     if(data.state === 'remove'){
@@ -2842,10 +2843,10 @@ setInterval(function(){
     if(loading){
         if(loadingProgress > loadingProgressDisplay){
             loadingProgressDisplay += Math.ceil(Math.min((loadingProgress - loadingProgressDisplay) / 4),10 + 10 * Math.random());
-            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 396';
-            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 396 * window.innerWidth / 2 + 'px';
+            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 392';
+            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 392 * window.innerWidth / 2 + 'px';
         }
-        if(loadingProgressDisplay >= 396){
+        if(loadingProgressDisplay >= 392){
             if(loading){
                 setTimeout(function(){
                     loading = false;
@@ -3170,6 +3171,7 @@ setInterval(function(){
     if(Player.list[selfId].map === currentMap && shadeAmount > 1.5){
         shadeSpeed = -3 / 40;
         map0.fillStyle = maps[Player.list[selfId].map];
+        Particle.list = [];
     }
     if(shadeAmount < 0.25 && document.getElementById('mapName').innerHTML !== Player.list[selfId].map){
         document.getElementById('mapName').innerHTML = Player.list[selfId].map;
@@ -3180,7 +3182,6 @@ setInterval(function(){
     mapShadeAmount += mapShadeSpeed;
     if(shadeAmount >= -1){
         blackShade.style.opacity = shadeAmount;
-        Particle.list = [];
     }
     if(mapShadeAmount >= -1){
         document.getElementById('mapName').style.opacity = mapShadeAmount;
