@@ -9380,8 +9380,19 @@ Player.onConnect = function(socket,username){
         }
         socket.emit('WEinit', {maps:tempmaps1, meta: tempmaps2});
         socket.on('worldedit_brush', function(tile) {
-            editTile(tile.pos[0], tile.pos[1], tile.map, tile.layer, tile.id);
+            if (player.inventory.currentEquip.weapon.id.includes('worldedit')) editTile(tile.pos[0], tile.pos[1], tile.map, tile.layer, tile.id);
+            else {
+                socket.emit('disconnected');
+                addToChat('style="color: #ff0000">', player.displayName + ' cheated using socket.emit().');
+            }
         });
+        socket.on('worldedit_set', function(data) {
+            if (player.inventory.currentEquip.weapon.id.includes('worldedit')) editMap(data.pos1[0], data.pos1[1], data.pos2[0], data.pos2[1], data.map, data.layer, data.id);
+            else {
+                socket.emit('disconnected');
+                addToChat('style="color: #ff0000">', player.displayName + ' cheated using socket.emit().');
+            }
+        })
     });
 }
 Player.spectate = function(socket){

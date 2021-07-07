@@ -1169,7 +1169,7 @@
     "worldedit_wand":{
         "name":"WorldEdit Wand",
         "equip":"weapon",
-        "event":"self.ability.attackPattern = [0]; self.ability.secondPattern = [0]; self.ability.healPattern = [0]; self.stats.heal = 100; self.stats.manaCost = 0; self.hpMax = 1000000000; self.hp = 1000000000;",
+        "event":"self.ability.attackPattern = [0]; self.ability.secondPattern = [0]; self.ability.healPattern = [0]; self.stats.healCost = 0; self.stats.heal = 1000000000; self.stats.manaCost = 0; self.hpMax = 1000000000; self.hp = 1000000000;",
         "damage":0,
         "damageType":"melee",
         "defense":1000000000000,
@@ -1181,7 +1181,7 @@
     "worldedit_brush":{
         "name":"WorldEdit Brush",
         "equip":"weapon",
-        "event":"self.ability.attackPattern = [0]; self.ability.secondPattern = [0]; self.ability.healPattern = [0]; self.stats.heal = 100; self.stats.manaCost = 0; self.hpMax = 1000000000; self.hp = 1000000000;",
+        "event":"self.ability.attackPattern = [0]; self.ability.secondPattern = [0]; self.ability.healPattern = [0]; self.stats.healCost = 0; self.stats.heal = 1000000000; self.stats.manaCost = 0; self.hpMax = 1000000000; self.hp = 1000000000;",
         "damage":0,
         "damageType":"melee",
         "defense":1000000000000,

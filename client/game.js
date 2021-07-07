@@ -112,6 +112,7 @@ tileset.onload = function(){
 };
 
 var projectileData = {};
+var mapdataloaded = 0;
 var renderLayers = function(json,name){
     if(isFirefox){
         var tempLower = document.createElement('canvas');
@@ -136,27 +137,27 @@ var renderLayers = function(json,name){
         width:json.layers[0].width,
     };
     for(var i = 0;i < json.layers.length;i++){
-        if(json.layers[i].type === "tilelayer" && json.layers[i].visible){
-            var size = json.tilewidth;
-            for(var j = 0;j < json.layers[i].data.length;j++){
-                tile_idx = json.layers[i].data[j];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx -= 1;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = (j % json.layers[i].width) * size;
-                    s_y = ~~(j / json.layers[i].width) * size;
-                    if(json.layers[i].name === 'Above0' || json.layers[i].name === 'Above1'){
-                        glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                    }
-                    else{
-                        glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                    }
-                }
-            }
-        }
-        else if(json.layers[i].type === "tilelayer" && json.layers[i].name.includes('Npc')){
+        // if(json.layers[i].type === "tilelayer" && json.layers[i].visible){
+        //     var size = json.tilewidth;
+        //     for(var j = 0;j < json.layers[i].data.length;j++){
+        //         tile_idx = json.layers[i].data[j];
+        //         if(tile_idx !== 0){
+        //             var img_x, img_y, s_x, s_y;
+        //             tile_idx -= 1;
+        //             img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+        //             img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+        //             s_x = (j % json.layers[i].width) * size;
+        //             s_y = ~~(j / json.layers[i].width) * size;
+        //             if(json.layers[i].name === 'Above0' || json.layers[i].name === 'Above1'){
+        //                 glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+        //             }
+        //             else{
+        //                 glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+        //             }
+        //         }
+        //     }
+        // }
+        if(json.layers[i].type === "tilelayer" && json.layers[i].name.includes('Npc')){
             var size = json.tilewidth;
             for(var j = 0;j < json.layers[i].data.length;j++){
                 tile_idx = json.layers[i].data[j];
@@ -243,6 +244,7 @@ var renderLayers = function(json,name){
         upper:tempUpper,
     }
     loadingProgress += 1;
+    mapdataloaded++;
 }
 var loadTileset = function(json,name){
     if(tilesetLoaded){
@@ -462,7 +464,7 @@ var chat = '<div>Welcome to Meadow Guarders Modded Open ' + VERSION + '!</div>';
 var debug = '<div>Debug info will show up here.</div>'
 chatText.innerHTML = '<div>Welcome to Meadow Guarders Modded Open ' + VERSION + '!</div>';
 var chatPress = false;
-var inChat = false;
+inChat = false;
 
 socket.on('addToChat',function(data){
     if(data.debug && !showDebugCommands){
@@ -2840,10 +2842,10 @@ setInterval(function(){
     if(loading){
         if(loadingProgress > loadingProgressDisplay){
             loadingProgressDisplay += Math.ceil(Math.min((loadingProgress - loadingProgressDisplay) / 4),10 + 10 * Math.random());
-            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 372';
-            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 372 * window.innerWidth / 2 + 'px';
+            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 396';
+            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 396 * window.innerWidth / 2 + 'px';
         }
-        if(loadingProgressDisplay >= 372){
+        if(loadingProgressDisplay >= 396){
             if(loading){
                 setTimeout(function(){
                     loading = false;
@@ -3324,18 +3326,18 @@ mouseDown = function(event){
     }
     if(event.button == 0){
         if (Player.list[selfId].currentItem == 'worldedit_wand') {
-            w.pos1(Math.round((Player.list[selfId].x+mouseX)/64), Math.floor((Player.list[selfId].y+mouseY)/64));
+            w.pos1(Math.floor((mouseX-cameraX+(window.innerWidth/2))/64), Math.floor((mouseY-cameraY+(window.innerHeight/2))/64));
         } else if (Player.list[selfId].currentItem == 'worldedit_brush') {
-            w.brush(Math.round((Player.list[selfId].x+mouseX)/64), Math.floor((Player.list[selfId].y+mouseY)/64))
+            w.brush(Math.floor((mouseX-cameraX+(window.innerWidth/2))/64), Math.floor((mouseY-cameraY+(window.innerHeight/2))/64));
         } else {
             socket.emit('keyPress',{inputId:'attack',state:true});
         }
     }
     if(event.button == 2){
         if (Player.list[selfId].currentItem == 'worldedit_wand') {
-            w.pos2(Math.round((Player.list[selfId].x+mouseX)/64), Math.floor((Player.list[selfId].y+mouseY)/64));
+            w.pos2(Math.floor((mouseX-cameraX+(window.innerWidth/2))/64), Math.floor((mouseY-cameraY+(window.innerHeight/2))/64));
         } else if (Player.list[selfId].currentItem == 'worldedit_brush') {
-            w.remove(Math.round((Player.list[selfId].x+mouseX)/64), Math.floor((Player.list[selfId].y+mouseY)/64))
+            w.remove(Math.floor((mouseX-cameraX+(window.innerWidth/2))/64), Math.floor((mouseY-cameraY+(window.innerHeight/2))/64));
         } else {
             socket.emit('keyPress',{inputId:'second',state:true});
         }
@@ -3511,9 +3513,60 @@ socket.on('WEinit', function(data) {
         } catch (err) {}
     }
     for (var i in MAPS) {
-        updateLayers(MAPS[i], i);
+        redrawLayers(MAPS[i], i);
     }
-})
+});
+socket.on('updateMap', function(data) {
+    MAPS[data.meta.name] = new Object();
+    MAPS[data.meta.name].width = data.meta.width;
+    MAPS[data.meta.name].height = data.meta.height;
+    try {
+        MAPS[data.meta.name].groundT = data.map.groundT;
+        MAPS[data.meta.name].groundT.width = data.meta.groundT.width;
+        MAPS[data.meta.name].groundT.height = data.meta.groundT.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].groundO = data.map.groundO;
+        MAPS[data.meta.name].groundO.width = data.meta.groundO.width;
+        MAPS[data.meta.name].groundO.height = data.meta.groundO.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].deco0 = data.map.deco0;
+        MAPS[data.meta.name].deco0.width = data.meta.deco0.width;
+        MAPS[data.meta.name].deco0.height = data.meta.deco0.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].deco1 = data.map.deco1;
+        MAPS[data.meta.name].deco1.width = data.meta.deco1.width;
+        MAPS[data.meta.name].deco1.height = data.meta.deco1.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].deco2 = data.map.deco2;
+        MAPS[data.meta.name].deco2.width = data.meta.deco2.width;
+        MAPS[data.meta.name].deco2.height = data.meta.deco2.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].above0 = data.map.above0;
+        MAPS[data.meta.name].above0.width = data.meta.above0.width;
+        MAPS[data.meta.name].above0.height = data.meta.above0.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].above1 = data.map.above1;
+        MAPS[data.meta.name].above1.width = data.meta.above1.width;
+        MAPS[data.meta.name].above1.height = data.meta.above1.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].col1 = data.map.col1;
+        MAPS[data.meta.name].col1.width = data.meta.col1.width;
+        MAPS[data.meta.name].col1.height = data.meta.col1.height;
+    } catch (err) {}
+    try {
+        MAPS[data.meta.name].col2 = data.map.col2;
+        MAPS[data.meta.name].col2.width = data.meta.col2.width;
+        MAPS[data.meta.name].col2.height = data.meta.col2.height;
+    } catch (err) {}
+    redrawLayers(MAPS[data.meta.name], data.meta.name);
+});
 socket.on('updateTile', function(tile) {
     if (tile.layer == 'GT') MAPS[tile.map].groundT[tile.pos[0]][tile.pos[1]] = tile.id;
     if (tile.layer == 'GO') MAPS[tile.map].groundO[tile.pos[0]][tile.pos[1]] = tile.id;
@@ -3524,9 +3577,9 @@ socket.on('updateTile', function(tile) {
     if (tile.layer == 'A1') MAPS[tile.map].above1[tile.pos[0]][tile.pos[1]] = tile.id;
     if (tile.layer == 'C0') MAPS[tile.map].col1[tile.pos[0]][tile.pos[1]] = tile.id;
     if (tile.layer == 'C1') MAPS[tile.map].col2[tile.pos[0]][tile.pos[1]] = tile.id;
-    updateLayers(MAPS[tile.map], tile.map);
+    redrawTile(MAPS[tile.map], tile.map, tile.pos[0], tile.pos[1]);
 });
-updateLayers = function(json,name){
+redrawLayers = function(json, name) {
     if(isFirefox){
         var tempLower = document.createElement('canvas');
         var tempUpper = document.createElement('canvas');
@@ -3536,129 +3589,252 @@ updateLayers = function(json,name){
         tempUpper.canvas.height = json.height * 64;
     }
     else {
-        var tempLower = new OffscreenCanvas(json.width * 64,json.height * 64);
-        var tempUpper = new OffscreenCanvas(json.width * 64,json.height * 64);
+        var tempLower = new OffscreenCanvas(~~(json.width * 64), ~~(json.height * 64));
+        var tempUpper = new OffscreenCanvas(~~(json.width * 64), ~~(json.height * 64));
     }
-    var glLower = tempLower.getContext('2d');
-    var glUpper = tempUpper.getContext('2d');
-    resetCanvas(glLower);
-    resetCanvas(glUpper);
+    if (mapdataloaded >= 22) {
+        var glLower = tempLower.getContext('2d');
+        var glUpper = tempUpper.getContext('2d');
+        resetCanvas(glLower);
+        resetCanvas(glUpper);
+        var size = mapTiles[name].tile.tilewidth;
+        var tile = mapTiles[name].tile;
+        try {
+            if (json.groundT) {
+                for (var i = 0; i < json.groundT.width; i++) {
+                    for (var j = 0; j < json.groundT.height; j++) {
+                        tile_idx = json.groundT[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        try {
+            if (json.groundO) {
+                for (var i = 0; i < json.groundO.width; i++) {
+                    for (var j = 0; j < json.groundO.height; j++) {
+                        tile_idx = json.groundO[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        try {
+            if (json.deco0) {
+                for (var i = 0; i < json.deco0.width; i++) {
+                    for (var j = 0; j < json.deco0.height; j++) {
+                        tile_idx = json.deco0[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        try {
+            if (json.deco1) {
+                for (var i = 0; i < json.deco1.width; i++) {
+                    for (var j = 0; j < json.deco1.height; j++) {
+                        tile_idx = json.deco1[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        try {
+            if (json.deco2) {
+                for (var i = 0; i < json.deco2.width; i++) {
+                    for (var j = 0; j < json.deco2.height; j++) {
+                        tile_idx = json.deco2[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        try {
+            if (json.above0) {
+                for (var i = 0; i < json.above0.width; i++) {
+                    for (var j = 0; j < json.above0.height; j++) {
+                        tile_idx = json.above0[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        try {
+            if (json.above1) {
+                for (var i = 0; i < json.above1.width; i++) {
+                    for (var j = 0; j < json.above1.height; j++) {
+                        tile_idx = json.above1[i][j];
+                        if(tile_idx !== 0){
+                            var img_x, img_y, s_x, s_y;
+                            tile_idx--;
+                            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                            s_x = i * size;
+                            s_y = j * size;
+                            glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                        }
+                    }
+                }
+            }
+        } catch (err) {console.error(err)}
+        loadedMap[name].lower.getContext('2d').clearRect(0, 0, json.width*64, json.height*64);
+        loadedMap[name].upper.getContext('2d').clearRect(0, 0, json.width*64, json.height*64);
+        loadedMap[name].lower.getContext('2d').drawImage(tempLower, 0, 0);
+        loadedMap[name].upper.getContext('2d').drawImage(tempUpper, 0, 0);
+        loadingProgress++;
+    } else {
+        setTimeout(function() {
+            redrawLayers(json, name);
+        }, 10);
+    }
+}
+redrawTile = async function(json, name, x, y) {
     var size = mapTiles[name].tile.tilewidth;
     var tile = mapTiles[name].tile;
+    s_x = x * size;
+    s_y = y * size;
+    loadedMap[name].lower.getContext('2d').clearRect(Math.round(s_x*4),Math.round(s_y*4),64,64);
+    loadedMap[name].upper.getContext('2d').clearRect(Math.round(s_x*4),Math.round(s_y*4),64,64);
     try {
-        for(var i in json.groundT) {
-            for(var j in json.groundT[i]) {
-                tile_idx = json.groundT[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
+        tile_idx = json.groundT[x][y];
+        if(tile_idx !== 0){
+            var img_x, img_y, s_x, s_y;
+            tile_idx--;
+            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            s_x = x * size;
+            s_y = y * size;
+            loadedMap[name].lower.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
         }
-    } catch (err) {console.error(err)}
+    } catch (err) {}
     try {
-        for(var i in json.groundO) {
-            for(var j in json.groundO[i]) {
-                tile_idx = json.groundO[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
+        tile_idx = json.groundO[x][y];
+        if(tile_idx !== 0){
+            var img_x, img_y, s_x, s_y;
+            tile_idx--;
+            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            s_x = x * size;
+            s_y = y * size;
+            loadedMap[name].lower.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
         }
-    } catch (err) {console.error(err)}
+    } catch (err) {}
     try {
-        for(var i in json.deco0) {
-            for(var j in json.deco0[i]) {
-                tile_idx = json.deco0[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
+        tile_idx = json.deco0[x][y];
+        if(tile_idx !== 0){
+            var img_x, img_y, s_x, s_y;
+            tile_idx--;
+            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            s_x = x * size;
+            s_y = y * size;
+            loadedMap[name].lower.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
         }
-    } catch (err) {console.error(err)}
+    } catch (err) {}
     try {
-        for(var i in json.deco1) {
-            for(var j in json.deco1[i]) {
-                tile_idx = json.deco1[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
+        tile_idx = json.deco1[x][y];
+        if(tile_idx !== 0){
+            var img_x, img_y, s_x, s_y;
+            tile_idx--;
+            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            s_x = x * size;
+            s_y = y * size;
+            loadedMap[name].lower.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
         }
-    } catch (err) {console.error(err)}
+    } catch (err) {}
+    if (json.deco2) {
+        try {
+            tile_idx = json.deco2[x][y];
+            if(tile_idx !== 0){
+                var img_x, img_y, s_x, s_y;
+                tile_idx--;
+                img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                s_x = x * size;
+                s_y = y * size;
+                loadedMap[name].lower.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+            }
+        } catch (err) {}
+    }
     try {
-        for(var i in json.deco2) {
-            for(var j in json.deco2[i]) {
-                tile_idx = json.deco2[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glLower.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
+        tile_idx = json.above0[x][y];
+        if(tile_idx !== 0){
+            var img_x, img_y, s_x, s_y;
+            tile_idx--;
+            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            s_x = x * size;
+            s_y = y * size;
+            loadedMap[name].upper.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
         }
-    } catch (err) {console.error(err)}
+    } catch (err) {}
     try {
-        for(var i in json.above0) {
-            for(var j in json.above0[i]) {
-                tile_idx = json.above0[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
+        tile_idx = json.above1[x][y];
+        if(tile_idx !== 0){
+            var img_x, img_y, s_x, s_y;
+            tile_idx--;
+            img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+            s_x = x * size;
+            s_y = y * size;
+            loadedMap[name].upper.getContext('2d').drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
         }
-    } catch (err) {console.error(err)}
-    try {
-        for(var i in json.above1) {
-            for(var j in json.above1[i]) {
-                tile_idx = json.above1[j][i];
-                if(tile_idx !== 0){
-                    var img_x, img_y, s_x, s_y;
-                    tile_idx--;
-                    img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
-                    s_x = j*size
-                    s_y = i*size;
-                    glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
-                }
-            }
-        }
-    } catch (err) {console.error(err)}
-    loadedMap[name].lower.getContext('2d').clearRect(0, 0, json.width*64, json.height*64);
-    loadedMap[name].upper.getContext('2d').clearRect(0, 0, json.width*64, json.height*64);
-    loadedMap[name].lower.getContext('2d').drawImage(tempLower, 0, 0);
-    loadedMap[name].upper.getContext('2d').drawImage(tempUpper, 0, 0);
+    } catch (err) {}
 }
+// document.getElementById('WE-input').onfocus = function() {
+//     inChat = true;
+//     socket.emit('releaseAll');
+// }
+// document.getElementById('WE-input').onblur = function() {
+//     inChat = false;
+// }
+// loading progress is 26 more than vanilla

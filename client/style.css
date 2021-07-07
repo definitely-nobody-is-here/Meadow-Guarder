@@ -1319,52 +1319,82 @@ audio {
 }
 
 /* WorldEdit */
-#WEConsole {
-    display: block;
+/* #WEconsole {
+    display: none;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 600px;
-    height: 300px;
+    bottom: 0px;
+    right: 0px;
+    width: 400px;
+    height: 200px;
     border: 2px black solid;
-    background-color: whitesmoke;
+    background-color: rgba(255, 255, 255, 0.5);
     text-align: left;
     transition: height 0.5s ease-in-out;
-    overflow-y: hidden;
 }
-#WEConsole-top {
-    padding-left: 8px;
-    padding-top: 4px;
-    height: 28px;
-    cursor: move;
-    background-color: black;
-}
-#WEConsole-hide {
-    display: inline-block;
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: white;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-#WEConsole-log {
+#WE-log {
     margin-left: 8px;
     overflow-wrap: break-word;
     overflow-y: scroll;
-    max-height: 244px;
+    max-height: 170px;
+    height: 170px;
+    width: 382px;
 }
-#WEConsole-input {
+#WE-input {
     position: absolute;
     bottom: 0px;
-    left: 0px;
-    width: 596px;
+    width: 388px;
     height: 20px;
-    border: none;
-    border-top: 2px black solid;
-    background-color: white;
-    font-family: 'Pixel';
+} */
+#WE-controls {
+    display: block;
+    /* display: none; */
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 400px;
+    height: 200px;
+    background-color: #FFFFFFAA;
+    border: 2px solid black;
+    padding: 8px 8px;
+}
+.WE_block {
+    font-family: 'pixel';
+    color: black;
+}
+.WE_select {
+    font-family: 'pixel';
+    color: black;
     font-size: 16px;
-    cursor: text;
+    background-color: whitesmoke;
+}
+#tile_type {
+    margin-bottom: 2px;
+    width: 314px;
+}
+#tile {
+    margin-bottom: 6px;
+    width: 400px;
+}
+#tile_layer {
+    margin-bottom: 6px;
+    width: 340px;
+}
+#tile_preview {
+    display: block;
+    width: 64px;
+    height: 64px;
+    background-color: black;
+    border: 2px solid black;
+}
+#WE-set {
+    display: block;
+    position: relative;
+    left: 74px;
+    top: -68px;
+    width: 326px;
+    height: 28px;
+    font-family: "Pixel";
+    font-size: 18px;
+    background-color: whitesmoke;
+    border: 2px solid black;
 }

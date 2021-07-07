@@ -65,6 +65,26 @@
 				</div>
 				<div class="pageStackOuter UI-display-light">
 					<div class="pageStackInner">
+						<div class="UI-text-light" style="position: static;top: 8px;left: 8px;color: #ffffff; font-size: 30px">
+							7/7/21
+						</div>
+						<div class="UI-text-light" style="position: static;top: 8px;left: 8px;color: #ffffff">
+							Added WorldEdit Brush
+							Added WorldEdit control panel
+							Removed need to open console to use worldedit
+							Fixed borken maps (#2)
+							Fixed lag (#3)
+							<br>
+							Updated to match latest MeadowGuarder base version
+							<br>
+						</div>
+					</div>
+				</div>
+				<div class="pageStackOuter UI-display-light">
+					<div class="pageStackInner">
+						<div class="UI-text-light" style="position: static;top: 8px;left: 8px;color: #ffffff; font-size: 30px">
+							7/3/21
+						</div>
 						<div class="UI-text-light" style="position: static;top: 8px;left: 8px;color: #ffffff">
 							Added craftable Whirlwind armor and Fire armor.
 							<br>
@@ -1102,6 +1122,39 @@
 		</div>
 		<div id="notificationsHolder" onmousedown="mouseDown(event)" onmouseup="mouseUp(event)">
 			<div id="notifications" class="UI-display-light" onmousedown="mouseDown(event)" onmouseup="mouseUp(event)"></div>
+		</div>
+		<div id="WE-controls" class="WE_block">
+			<div class="WE_block">
+				Category:
+				<select id="tile_type" class="WE_select">
+					<option value="base">Base</option>
+					<option value="path">Path</option>
+					<option value="buildings">Buildings</option>
+					<option value="doorswindows">Doors and Windows</option>
+					<option value="outdoors">Nature</option>
+					<option value="tableschairs">Tables and Chairs</option>
+					<option value="furniture">Other Furniture</option>
+					<option value="decoration">Decoration</option>
+					<option value="other" selected>Misc</option>
+				</select>
+				<select id="tile" class="WE_select">
+					<option value="none">none</option>
+				</select>
+				Layer:
+				<select id="tile_layer" class="WE_select">
+					<option value="GT">Ground Terrain</option>
+					<option value="GO">Ground Overlay</option>
+					<option value="D0">Deco 0</option>
+					<option value="D1">Deco 1</option>
+					<option value="D2">Deco 2</option>
+					<option value="A0">Above 0</option>
+					<option value="A1">Above 1</option>
+				</select>
+			</div>
+			<div class="WE_block">
+				<canvas id="tile_preview" width="64" height="64"></canvas>
+				<button id="WE-set">SET AREA</button>
+			</div>
 		</div>
 		
 		<div id="interactMenu" class="UI-display-light" style="display:none;" onmousedown="mouseDown(event)" onmouseup="mouseUp(event)">
