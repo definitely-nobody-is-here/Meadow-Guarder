@@ -153,6 +153,8 @@ loadMap('Lilypad Temple Room 0');
 loadMap('Lilypad Temple Room 1');
 loadMap('Lilypad Temple Room 2');
 loadMap('Lilypad Kingdom');
+loadMap('Lilypad Castle');
+loadMap('Lilypad Castle Basement');
 loadMap('Mysterious Room');
 loadMap('The Weeping Forest');
 loadMap('The Graveyard');
