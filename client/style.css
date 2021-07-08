@@ -1346,8 +1346,8 @@ audio {
     height: 20px;
 } */
 #WE-controls {
-    display: block;
-    /* display: none; */
+    /* display: block; */
+    display: none;
     position: absolute;
     bottom: 0px;
     right: 0px;

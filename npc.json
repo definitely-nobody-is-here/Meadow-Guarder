@@ -588,5 +588,17 @@
         "randomWalk":"wander",
         "canChangeMap":false,
         "shop":false
+    },
+    "axe":{
+        "name":"Axe",
+        "randomWalk":"none",
+        "canChangeMap":false,
+        "shop":false
+    },
+    "pickaxe":{
+        "name":"Pickaxe",
+        "randomWalk":"none",
+        "canChangeMap":false,
+        "shop":false
     }
 }

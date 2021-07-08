@@ -1175,7 +1175,7 @@
         "defense":1000000000000,
         "damageReduction":100,
         "useTime":1,
-        "rarity":-1,
+        "rarity":99,
         "description":"Used only for worldedit"
     },
     "worldedit_brush":{
@@ -1187,7 +1187,7 @@
         "defense":1000000000000,
         "damageReduction":100,
         "useTime":1,
-        "rarity":-1,
+        "rarity":99,
         "description":"Used only for worldedit<br>Used to place and break tiles"
     }
 }

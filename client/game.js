@@ -82,7 +82,6 @@ var signDivCreateAccount = document.getElementById('createAccount');
 var signDivDeleteAccount = document.getElementById('deleteAccount');
 var signDivChangePassword = document.getElementById('changePassword');
 
-
 gameDiv.style.display = 'none';
 disconnectedDiv.style.display = 'none';
 spectatorDiv.style.display = 'none';
@@ -2843,10 +2842,10 @@ setInterval(function(){
     if(loading){
         if(loadingProgress > loadingProgressDisplay){
             loadingProgressDisplay += Math.ceil(Math.min((loadingProgress - loadingProgressDisplay) / 4),10 + 10 * Math.random());
-            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 392';
-            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 392 * window.innerWidth / 2 + 'px';
+            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 424';
+            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 424 * window.innerWidth / 2 + 'px';
         }
-        if(loadingProgressDisplay >= 392){
+        if(loadingProgressDisplay >= 424){
             if(loading){
                 setTimeout(function(){
                     loading = false;
@@ -3726,6 +3725,26 @@ redrawLayers = function(json, name) {
                 }
             }
         } catch (err) {console.error(err)}
+        if (showWEConsole) {
+            try {
+                if (json.col0) {
+                    for (var i = 0; i < json.col0.width; i++) {
+                        for (var j = 0; j < json.col0.height; j++) {
+                            tile_idx = json.col0[i][j];
+                            if(tile_idx !== 0){
+                                var img_x, img_y, s_x, s_y;
+                                tile_idx--;
+                                img_x = (tile_idx % ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                                img_y = ~~(tile_idx / ((tile.imagewidth + tile.spacing) / (size + tile.spacing))) * (size + tile.spacing);
+                                s_x = i * size;
+                                s_y = j * size;
+                                glUpper.drawImage(tileset,Math.round(img_x),Math.round(img_y),size,size,Math.round(s_x * 4),Math.round(s_y * 4),64,64);
+                            }
+                        }
+                    }
+                }
+            } catch (err) {console.error(err)}
+        }
         loadedMap[name].lower.getContext('2d').clearRect(0, 0, json.width*64, json.height*64);
         loadedMap[name].upper.getContext('2d').clearRect(0, 0, json.width*64, json.height*64);
         loadedMap[name].lower.getContext('2d').drawImage(tempLower, 0, 0);

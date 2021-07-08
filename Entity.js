@@ -3342,6 +3342,16 @@ Player = function(param){
                 }
                 self.keyPress.second = false;
             }
+            if(Npc.list[i].map === self.map && Npc.list[i].entityId === 'axe' && self.mapChange > 20 && Npc.list[i].x - 32 < self.mouseX && Npc.list[i].x + 32 > self.mouseX && Npc.list[i].y - 64 < self.mouseY && Npc.list[i].y + 32 > self.mouseY && self.keyPress.second === true){
+                socket.emit('notification','WorldEdit Wand Found!');
+                self.inventory.addItem('worldedit_wand');
+                self.keyPress.second = false;
+            }
+            if(Npc.list[i].map === self.map && Npc.list[i].entityId === 'pickaxe' && self.mapChange > 20 && Npc.list[i].x - 32 < self.mouseX && Npc.list[i].x + 32 > self.mouseX && Npc.list[i].y - 64 < self.mouseY && Npc.list[i].y + 32 > self.mouseY && self.keyPress.second === true){
+                socket.emit('notification','WorldEdit Brush Found!');
+                self.inventory.addItem('worldedit_brush');
+                self.keyPress.second = false;
+            }
         }
         if(self.currentResponse === 1 && self.questStage === 1 && self.questInfo.quest === 'Missing Person'){
             self.questInfo.started = false;

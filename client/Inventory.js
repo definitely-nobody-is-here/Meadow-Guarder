@@ -220,6 +220,9 @@ Inventory = function(socket,server){
         if(rarity === 8){
             return '#00ff90';
         }
+        if(rarity === 99){
+            return '#AAAAFF';
+        }
     }
     self.getMaterialName = function(id){
         if(id === 'wood'){
