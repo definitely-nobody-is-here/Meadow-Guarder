@@ -83,6 +83,16 @@ Inventory = function(socket,server){
                 self.refreshMaterial();
                 return self.materials[i];
             }
+            else if(i + 'x10' === id){
+                self.materials[i] += 10;
+                self.refreshMaterial();
+                return self.materials[i];
+            }
+            else if(i + 'x100' === id){
+                self.materials[i] += 100;
+                self.refreshMaterial();
+                return self.materials[i];
+            }
         }
         if(Item.list[id]){
             self.items.push({id:id,enchantments:enchantments || [],displayButtons:false});
@@ -237,6 +247,30 @@ Inventory = function(socket,server){
         if(id === 'ruby'){
             return 'Ruby';
         }
+        if(id === 'woodx10'){
+            return 'Wood x10';
+        }
+        if(id === 'steelx10'){
+            return 'Steel x10';
+        }
+        if(id === 'goldx10'){
+            return 'Gold x10';
+        }
+        if(id === 'rubyx10'){
+            return 'Ruby x10';
+        }
+        if(id === 'woodx100'){
+            return 'Wood x100';
+        }
+        if(id === 'steelx100'){
+            return 'Steel x100';
+        }
+        if(id === 'goldx100'){
+            return 'Gold x100';
+        }
+        if(id === 'rubyx100'){
+            return 'Ruby x100';
+        }
         if(id === 'emeraldite'){
             return 'Emeraldite';
         }
@@ -364,6 +398,9 @@ Inventory = function(socket,server){
             }
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
+            }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
             }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
@@ -543,6 +580,9 @@ Inventory = function(socket,server){
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
             }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
+            }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
             }
@@ -618,6 +658,9 @@ Inventory = function(socket,server){
             }
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
+            }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
             }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
@@ -707,6 +750,9 @@ Inventory = function(socket,server){
             }
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
+            }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
             }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
@@ -841,6 +887,9 @@ Inventory = function(socket,server){
             }
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
+            }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
             }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
@@ -1078,6 +1127,9 @@ Inventory = function(socket,server){
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
             }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
+            }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
             }
@@ -1269,6 +1321,9 @@ Inventory = function(socket,server){
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
             }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
+            }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
             }
@@ -1353,6 +1408,9 @@ Inventory = function(socket,server){
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
             }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
+            }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
             }
@@ -1369,6 +1427,12 @@ Inventory = function(socket,server){
             }
             for(var i in self.materials){
                 if(i === data.id){
+                    button.innerHTML = self.getMaterialName(data.id) + ' ';
+                }
+                else if(i + 'x10' === data.id){
+                    button.innerHTML = self.getMaterialName(data.id) + ' ';
+                }
+                else if(i + 'x100' === data.id){
                     button.innerHTML = self.getMaterialName(data.id) + ' ';
                 }
             }
@@ -1448,6 +1512,9 @@ Inventory = function(socket,server){
             }
             if(item.damageReduction){
                 description += '<span style="color: #33ee33">+' + item.damageReduction * 100 + '% damage reduction.</span><br>';
+            }
+            if(item.manaCost){
+                description += 'Uses ' + item.manaCost + ' mana.<br>';
             }
             if(item.rarity){
                 button.style.color = self.getRarityColor(item.rarity);
@@ -1603,6 +1670,14 @@ Inventory = function(socket,server){
                         socket.emit('notification','You successfully bought ' + self.getMaterialName(item.id) + '.');
                         return;
                     }
+                    if(i + 'x10' === item.id){
+                        socket.emit('notification','You successfully bought ' + self.getMaterialName(item.id) + '.');
+                        return;
+                    }
+                    if(i + 'x100' === item.id){
+                        socket.emit('notification','You successfully bought ' + self.getMaterialName(item.id) + '.');
+                        return;
+                    }
                 }
                 if(Item.list[item.id]){
                     socket.emit('notification','You successfully bought ' + Item.list[item.id].name + '.');
@@ -1660,7 +1735,7 @@ Enchantment = function(id,name,maxLevel,averageLevel,deviation,dropChance,event)
 
 Enchantment.list = {};
 
-Item = function(id,name,equip,event,enchantments,description,damage,damageType,critChance,useTime,defense,damageReduction,rarity){
+Item = function(id,name,equip,event,enchantments,description,damage,damageType,critChance,useTime,defense,damageReduction,manaCost,rarity){
 	var self = {
 		id:id,
         name:name,
@@ -1674,6 +1749,7 @@ Item = function(id,name,equip,event,enchantments,description,damage,damageType,c
         useTime:useTime,
         defense:defense,
         damageReduction,damageReduction,
+        manaCost,manaCost,
         rarity:rarity,
     }
 	Item.list[self.id] = self;
@@ -1684,7 +1760,7 @@ Item.list = {};
 try{
     var items = require('./item.json');
     for(var i in items){
-        Item(i,items[i].name,items[i].equip,items[i].event,items[i].enchantments,items[i].description,items[i].damage,items[i].damageType,items[i].critChance,items[i].useTime,items[i].defense,items[i].damageReduction,items[i].rarity);
+        Item(i,items[i].name,items[i].equip,items[i].event,items[i].enchantments,items[i].description,items[i].damage,items[i].damageType,items[i].critChance,items[i].useTime,items[i].defense,items[i].damageReduction,items[i].manaCost,items[i].rarity);
     }
 }
 catch(err){
@@ -1696,7 +1772,7 @@ catch(err){
             // Success!
             var items = JSON.parse(this.response);
             for(var i in items){
-                Item(i,items[i].name,items[i].equip,items[i].event,items[i].enchantments,items[i].description,items[i].damage,items[i].damageType,items[i].critChance,items[i].useTime,items[i].defense,items[i].damageReduction,items[i].rarity);
+                Item(i,items[i].name,items[i].equip,items[i].event,items[i].enchantments,items[i].description,items[i].damage,items[i].damageType,items[i].critChance,items[i].useTime,items[i].defense,items[i].damageReduction,items[i].manaCost,items[i].rarity);
             }
         }
         else{
