@@ -2823,10 +2823,10 @@ setInterval(function(){
     if(loading){
         if(loadingProgress > loadingProgressDisplay){
             loadingProgressDisplay += Math.ceil(Math.min(Math.min((loadingProgress - loadingProgressDisplay) / 4,10 + 10 * Math.random()),loadingProgressDisplay / 5 + 1));
-            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 417';
-            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 417 * 100 + '%';
+            document.getElementById('loadingBar').innerHTML = loadingProgressDisplay + ' / 464';
+            document.getElementById('loadingProgress').style.width = loadingProgressDisplay / 464 * 100 + '%';
         }
-        if(loadingProgressDisplay >= 417){
+        if(loadingProgressDisplay >= 464){
             if(loading){
                 setTimeout(function(){
                     loading = false;

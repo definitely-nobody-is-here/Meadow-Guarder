@@ -121,7 +121,9 @@ editMap = function(x1, y1, x2, y2, map, layer, id) {
             };
         } catch (err) {}
     }
-    io.emit('updateMap', {map:tempmaps1, meta:tempmaps2});
+    try {
+        io.emit('updateMap', {map:tempmaps1, meta:tempmaps2});
+    } catch (err) {console.error(err)}
 }
 editTile = function(x, y, map, layer, id) {
     if (x < MAPS[map].width && x > -1 && y < MAPS[map].height && y > -1) {
@@ -163,6 +165,7 @@ loadMap('Lilypad Temple Room 1');
 loadMap('Lilypad Temple Room 2');
 loadMap('Lilypad Kingdom');
 loadMap('Lilypad Castle');
+loadMap('Lilypad Castle Upstairs');
 loadMap('Lilypad Castle Basement');
 loadMap('Mysterious Room');
 loadMap('The Weeping Forest');
